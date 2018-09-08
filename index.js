@@ -62,14 +62,33 @@ const Tree = class {
         if (this.isLeaf() || !cascade) {
             return this.isSelected;
         } else {
-            const selectedLeafs = this.getSelectedLeafCount();
             const leafCount = this.getLeafCount();
-            if (selectedLeafs === 0 && leafCount !== selectedLeafs) {
-                return SelectType.NotSelect;
-            } else if (leafCount === selectedLeafs) {
-                return SelectType.FullSelect;
+            if (leafCount === 0) {
+                return this.isSelected;
+            }
+            const selectedLeafs = this.getSelectedLeafCount();
+            if (leafCount > selectedLeafs) {
+                if (selectedLeafs === 0) {
+                    return SelectType.NotSelect;
+                } else {
+                    return SelectType.IncompleteSelect;
+                }
             } else {
-                return SelectType.IncompleteSelect;
+                const func = (treeNode) => {
+                    if (treeNode.isLeaf()) {
+                        return false;
+                    } else if (treeNode.getLeafCount() === 0) {
+                        return treeNode.isSelected === SelectType.NotSelect;
+                    } else {
+                        return treeNode.getChildren()
+                            .reduce((prv, cur) => prv || func(cur), false);
+                    }
+                };
+                if (func(this)) {
+                    return SelectType.IncompleteSelect;
+                } else {
+                    return SelectType.FullSelect;
+                }
             }
         }
     };
@@ -78,7 +97,7 @@ const Tree = class {
         if (this.isLeaf()) {
             return 1;
         } else {
-            return this.root[kChild].reduce((prv, cur) => prv + cur.getLeafCount(), 0);
+            return this.getChildren().reduce((prv, cur) => prv + cur.getLeafCount(), 0);
         }
     };
 
@@ -86,7 +105,7 @@ const Tree = class {
         if (this.isLeaf()) {
             return this.isSelected;
         } else {
-            return this.root[kChild].reduce((prv, cur) => prv + cur.getSelectedLeafCount(), 0);
+            return this.getChildren().reduce((prv, cur) => prv + cur.getSelectedLeafCount(), 0);
         }
     };
 
@@ -94,7 +113,7 @@ const Tree = class {
         if (this.isLeaf()) {
             return 1;
         } else {
-            return 1 + this.root[kChild].reduce((prv, cur) => {
+            return 1 + this.getChildren().reduce((prv, cur) => {
                 const curDeepth = cur.getDeepth();
                 if (curDeepth > prv) {
                     return curDeepth;
@@ -125,9 +144,9 @@ const Tree = class {
             const notLeafs = [], leafs = [];
             childs.forEach(item => {
                 if (item.isLeaf()) {
-                    notLeafs.push(item);
-                } else {
                     leafs.push(item);
+                } else {
+                    notLeafs.push(item);
                 }
             });
             return sort ? [notLeafs.sort(sort), leafs.sort(sort)] : [notLeafs, leafs];
@@ -242,9 +261,8 @@ const Tree = class {
     };
 
     _fromUpNotification = (status) => {
-        if (this.isLeaf()) {
-            this.isSelected = status;
-        } else {
+        this.isSelected = status;
+        if (!this.isLeaf()) {
             this.getChildren().forEach(treeNode => treeNode._fromUpNotification(status));
         }
         this._onStatusChange();
