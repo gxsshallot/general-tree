@@ -87,6 +87,7 @@ export const SelectType = {
 ### 接口
 
 * `isLeaf: () => boolean`
+* `isEqual: (treeNode: Tree) => boolean`
 * `selectStatus: (cascade: boolean) => 0 | 0.5 | 1`
 * `isFullSelect: (cascade: boolean) => boolean`
 * `isNotSelect: (cascade: boolean) => boolean`

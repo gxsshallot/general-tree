@@ -51,7 +51,8 @@ const Tree = class {
         this.isSelected = SelectType.NotSelect;
     }
 
-    isLeaf = () => this.root[kChild] === undefined;
+    isLeaf = () => this.getChildren() === undefined;
+    isEqual = (treeNode) => this.getStringId() === treeNode.getStringId();
 
     isFullSelect = (cascade = true) => this.selectStatus(cascade) === SelectType.FullSelect;
     isNotSelect = (cascade = true) => this.selectStatus(cascade) === SelectType.NotSelect;
