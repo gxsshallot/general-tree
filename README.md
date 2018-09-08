@@ -98,6 +98,7 @@ Then you can call `update` method to change a tree node select status automatica
 * `getDeepth: () => number`
 * `getInfo: () => object`
 * `getId: () => any`
+* `getStringId: () => string`
 * `getParent: () => Tree?`
 * `getChildren: () => Tree[]?`
 * `getPinyin: (key: string) => string?`

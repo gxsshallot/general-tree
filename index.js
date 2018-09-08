@@ -113,6 +113,7 @@ const Tree = class {
     });
 
     getId = () => this.root[this.idKey];
+    getStringId = () => this._stringId(this.getId());
     getParent = () => this.root[kParent];
     getChildren = () => this.root[kChild];
     getPinyin = (key) => this.root[kPinyin][key];
@@ -148,7 +149,7 @@ const Tree = class {
         const result = [];
         if (Array.isArray(selectedIds) && selectedIds.length > 0) {
             selectedIds = selectedIds.map(item => this._stringId(item));
-            if (selectedIds.indexOf(this._getStringId()) >= 0) {
+            if (selectedIds.indexOf(this.getStringId()) >= 0) {
                 this.update(cascade);
                 result.push(this);
             } else if (!this.isLeaf()) {
@@ -215,7 +216,7 @@ const Tree = class {
     hasAncestor = (ancestor) => {
         const parent = this.getParent();
         if (parent) {
-            return ancestor._getStringId() === parent._getStringId()
+            return ancestor.getStringId() === parent.getStringId()
                 || parent.hasAncestor(ancestor);
         } else {
             return false;
@@ -223,7 +224,7 @@ const Tree = class {
     };
 
     findById = (childId) => {
-        if (this._getStringId() === this._stringId(childId)) {
+        if (this.getStringId() === this._stringId(childId)) {
             return [this];
         } else if (this.isLeaf()) {
             return undefined;
@@ -257,8 +258,6 @@ const Tree = class {
         this.onStatusChange && this.onStatusChange(this);
     };
 
-    _getStringId = () => this._stringId(this.getId());
-    
     _stringId = (id) => {
         if (id === undefined || id === null) {
             throw new Error('Identifier can not be null or undefined');

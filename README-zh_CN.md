@@ -96,6 +96,7 @@ export const SelectType = {
 * `getDeepth: () => number`
 * `getInfo: () => object`
 * `getId: () => any`
+* `getStringId: () => string`
 * `getParent: () => Tree?`
 * `getChildren: () => Tree[]?`
 * `getPinyin: (key: string) => string?`
