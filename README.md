@@ -38,9 +38,7 @@ constructor(
     parent = undefined,
     childrenKey = 'children',
     idKey = 'id',
-    onStatusChange = undefined,
-    normalPinyinKeys = [],
-    firstLetterPinyinKeys = []
+    onStatusChange = undefined
 )
 ```
 
@@ -49,8 +47,6 @@ constructor(
 * childrenKey: `root[childrenKey]` will be used to generate children `Tree` node. `root[childrenKey] === undefined` means it is a leaf node.
 * idKey: `root[idKey]` is an identifier of node, and will be used when `setInitialState`. It will be converted to a string when used in `Tree` class.
 * onStatusChange: When one `Tree` node's select status change, it will be called with current node.
-* normalPinyinKeys: An array of key names which will be generated to normal Pinyin used in searching.
-* firstLetterPinyinKeys: An array of key names which will be generated to first letter Pinyin used in searching.
 
 Example:
 
@@ -102,8 +98,6 @@ Then you can call `update` method to change a tree node select status automatica
 * `getStringId: () => string`
 * `getParent: () => Tree?`
 * `getChildren: () => Tree[]?`
-* `getPinyin: (key: string) => string?`
-* `getFirstLetterPinyin: (key: string) => string?`
 * `getSplitChildren: (sort: function, splic: function) => Tree[][]`
 * `getLeafChildren: () => Tree[]`
 * `setInitialState: (selectedIds: any[], cascade: boolean) => Tree[]`

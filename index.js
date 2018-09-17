@@ -1,9 +1,5 @@
-import pinyin from 'pinyin';
-
 const kChild = '__treechild__';
 const kParent = '__treeparent__';
-const kPinyin = '__pinyin__';
-const kFLPinyin = '__firstletterpinyin__';
 
 export const SelectType = {
     NotSelect: 0,
@@ -17,35 +13,14 @@ const Tree = class {
         parent = undefined,
         childrenKey = 'children',
         idKey = 'id',
-        onStatusChange = undefined,
-        normalPinyinKeys = [],
-        firstLetterPinyinKeys = []
+        onStatusChange = undefined
     ) {
         this.idKey = idKey;
         this.root = {...root};
         this.root[kParent] = parent;
-        this.root[kPinyin] = {};
-        normalPinyinKeys.forEach(key => {
-            const rPinyin = pinyin(String(this.root[key]), {
-                style: pinyin.STYLE_NORMAL,
-                heteronym: true
-            });
-            this.root[kPinyin][key] = rPinyin.map(item => item[0]).join('');
-        });
-        this.root[kFLPinyin] = {};
-        firstLetterPinyinKeys.forEach(key => {
-            const rPinyin = pinyin(String(this.root[key]), {
-                style: pinyin.STYLE_FIRST_LETTER,
-                heteronym: true
-            });
-            this.root[kFLPinyin][key] = rPinyin.map(item => item[0]).join('');
-        });
         this.root[kChild] = this.root[childrenKey] ?
             this.root[childrenKey].map(item => {
-                return new Tree(
-                    item, this, childrenKey, idKey, onStatusChange,
-                    normalPinyinKeys, firstLetterPinyinKeys
-                );
+                return new Tree(item, this, childrenKey, idKey, onStatusChange);
             }) : undefined;
         this.onStatusChange = onStatusChange;
         this.isSelected = SelectType.NotSelect;
@@ -128,16 +103,12 @@ const Tree = class {
         ...this.root,
         [kChild]: undefined,
         [kParent]: undefined,
-        [kPinyin]: undefined,
-        [kFLPinyin]: undefined,
     });
 
     getId = () => this.root[this.idKey];
     getStringId = () => this._stringId(this.getId());
     getParent = () => this.root[kParent];
     getChildren = () => this.root[kChild];
-    getPinyin = (key) => this.root[kPinyin][key];
-    getFirstLetterPinyin = (key) => this.root[kFLPinyin][key];
 
     getSplitChildren = (sort, split) => {
         split = split || ((childs, sort) => {
@@ -199,27 +170,9 @@ const Tree = class {
         }
         const result = [];
         if (canSearch && (multiselect || this.isLeaf())) {
-            const allKeys = [
-                ...keys,
-                ...Object.keys(this.root[kPinyin]),
-                ...Object.keys(this.root[kFLPinyin])
-            ];
-            const uniqueKeys = Array.from(new Set(allKeys));
-            const isContain = uniqueKeys.some(key => {
-                if (this.root[key] &&
-                    this.root[key].toLowerCase().indexOf(text) >= 0) {
-                    return true;
-                }
-                if (this.root[kPinyin][key] &&
-                    this.root[kPinyin][key].toLowerCase().indexOf(text) >= 0) {
-                    return true;
-                }
-                if (this.root[kFLPinyin][key] &&
-                    this.root[kFLPinyin][key].toLowerCase().indexOf(text) >= 0) {
-                    return true;
-                }
-                return false;
-            });
+            const uniqueKeys = Array.from(new Set(keys));
+            const isContain = uniqueKeys
+                .some(key => this.root[key] && this.root[key].toLowerCase().indexOf(text) >= 0);
             if (isContain) {
                 result.push(this);
             }

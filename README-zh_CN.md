@@ -36,9 +36,7 @@ constructor(
     parent = undefined,
     childrenKey = 'children',
     idKey = 'id',
-    onStatusChange = undefined,
-    normalPinyinKeys = [],
-    firstLetterPinyinKeys = []
+    onStatusChange = undefined
 )
 ```
 
@@ -47,8 +45,6 @@ constructor(
 * childrenKey: 使用`root[childrenKey]`来产生子节点列表. `root[childrenKey] === undefined`表示这是一个叶节点.
 * idKey: `root[idKey]`是一个节点的标识, 将被用于`setInitialState`. 当在`Tree`类内部使用时, 它将被转换成一个字符串.
 * onStatusChange: 当一个`Tree`节点的选择状态改变时, 它将会被调用并传入当前节点作为参数.
-* normalPinyinKeys: 一个键名字数组, 将产生常规拼音并被用于搜索.
-* firstLetterPinyinKeys: 一个键名字数组, 将产生首字母拼音并被用于搜索.
 
 示例:
 
@@ -100,8 +96,6 @@ export const SelectType = {
 * `getStringId: () => string`
 * `getParent: () => Tree?`
 * `getChildren: () => Tree[]?`
-* `getPinyin: (key: string) => string?`
-* `getFirstLetterPinyin: (key: string) => string?`
 * `getSplitChildren: (sort: function, splic: function) => Tree[][]`
 * `getLeafChildren: () => Tree[]`
 * `setInitialState: (selectedIds: any[], cascade: boolean) => Tree[]`
