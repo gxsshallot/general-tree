@@ -7,7 +7,7 @@
     "types": "index.d.ts",
     "repository": {
         "type": "git",
-        "url": "git+https://github.com/gaoxiaosong/react-native-general-tree"
+        "url": "https://github.com/gaoxiaosong/react-native-general-tree.git"
     },
     "keywords": [
         "React-Native",
