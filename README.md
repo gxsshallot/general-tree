@@ -1,6 +1,6 @@
 # react-native-general-tree
 
-[Chinese README](README-zh_CN.md)
+[中文说明](README-zh_CN.md)
 
 A general tree support tree operation.
 

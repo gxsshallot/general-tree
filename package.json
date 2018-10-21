@@ -1,9 +1,10 @@
 {
     "name": "react-native-general-tree",
-    "version": "1.0.3",
+    "version": "1.0.4",
     "private": false,
     "description": "A general tree support tree operation.",
     "main": "index.js",
+    "types": "index.d.ts",
     "repository": {
         "type": "git",
         "url": "git+https://github.com/gaoxiaosong/react-native-general-tree"
