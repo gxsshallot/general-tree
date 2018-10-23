@@ -96,7 +96,6 @@ export const SelectType = {
 * `getStringId: () => string`
 * `getParent: () => Tree?`
 * `getChildren: () => Tree[]?`
-* `getSplitChildren: (sort: function, splic: function) => Tree[][]`
 * `getLeafChildren: () => Tree[]`
 * `setInitialState: (selectedIds: any[], cascade: boolean) => Tree[]`
 * `update: (cascade: boolean) => void`

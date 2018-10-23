@@ -110,14 +110,6 @@ const Tree = class {
     getParent = () => this.root[kParent];
     getChildren = () => this.root[kChild];
 
-    getSplitChildren = (split, sort) => {
-        if (split) {
-            return split(this.getChildren(), sort);
-        } else {
-            return this.getChildren();
-        }
-    };
-
     getLeafChildren = () => {
         if (this.isLeaf()) {
             return [this];

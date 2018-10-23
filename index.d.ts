@@ -8,7 +8,6 @@ export const SelectType: {
 
 export type TreeKeyType = string | number | {};
 export type TreeValueType = any;
-export type SortFuncType = (a: any, b: any) => -1 | 0 | 1;
 
 declare class Tree {
     constructor(
@@ -35,10 +34,6 @@ declare class Tree {
     getStringId: () => string;
     getParent: () => Tree | void;
     getChildren: () => Tree[];
-    getSplitChildren: (
-        split?: (childs: Tree[], sort?: SortFuncType) => Array<Tree | Tree[]>,
-        sort?: SortFuncType
-    ) => Array<Tree | Tree[]>;
     getLeafChildren: () => Tree[];
 
     setInitialState: (selectedIds: TreeKeyType[], cascade?: boolean) => Tree[];
