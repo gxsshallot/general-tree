@@ -110,19 +110,12 @@ const Tree = class {
     getParent = () => this.root[kParent];
     getChildren = () => this.root[kChild];
 
-    getSplitChildren = (sort, split) => {
-        split = split || ((childs, sort) => {
-            const notLeafs = [], leafs = [];
-            childs.forEach(item => {
-                if (item.isLeaf()) {
-                    leafs.push(item);
-                } else {
-                    notLeafs.push(item);
-                }
-            });
-            return sort ? [notLeafs.sort(sort), leafs.sort(sort)] : [notLeafs, leafs];
-        });
-        return split(this.getChildren(), sort);
+    getSplitChildren = (split, sort) => {
+        if (split) {
+            return split(this.getChildren(), sort);
+        } else {
+            return this.getChildren();
+        }
     };
 
     getLeafChildren = () => {

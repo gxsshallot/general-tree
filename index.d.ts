@@ -33,26 +33,26 @@ declare class Tree {
     getInfo: () => {};
     getId: () => TreeValueType;
     getStringId: () => string;
-    getParent: () => Tree | undefined | null;
-    getChildren: () => [] | undefined | null;
+    getParent: () => Tree | void;
+    getChildren: () => Tree[];
     getSplitChildren: (
-        sort?: SortFuncType,
-        split?: (childs: [], sort?: SortFuncType) => [[]]
-    ) => [[]];
-    getLeafChildren: () => [Tree];
+        split?: (childs: Tree[], sort?: SortFuncType) => Array<Tree | Tree[]>,
+        sort?: SortFuncType
+    ) => Array<Tree | Tree[]>;
+    getLeafChildren: () => Tree[];
 
-    setInitialState: (selectedIds: [TreeKeyType], cascade?: boolean) => [Tree];
+    setInitialState: (selectedIds: TreeKeyType[], cascade?: boolean) => Tree[];
     update: (cascade?: boolean) => void;
     search: (
         text: string,
-        keys: [TreeKeyType],
+        keys: TreeKeyType[],
         multiselect: boolean,
         exactly?: boolean,
         canSearch?: boolean
-    ) => [Tree];
+    ) => Tree[];
 
     hasAncestor: (ancestor: Tree) => boolean;
-    findById: (childId: TreeKeyType) => [Tree] | undefined;
+    findById: (childId: TreeKeyType) => Tree[] | void;
 
     private _fromUpNotification: (status: boolean) => void;
     private _fromDownNotification: () => void;
