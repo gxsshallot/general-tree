@@ -1,11 +1,9 @@
 const kChild = '__treechild__';
 const kParent = '__treeparent__';
 
-export const SelectType = {
-    NotSelect: 0,
-    IncompleteSelect: 0.5,
-    FullSelect: 1,
-};
+export const NotSelect = 0;
+export const IncompleteSelect = 0.5;
+export const FullSelect = 1;
 
 const Tree = class {
     constructor(
@@ -23,15 +21,15 @@ const Tree = class {
                 return new Tree(item, this, childrenKey, idKey, onStatusChange);
             }) : undefined;
         this.onStatusChange = onStatusChange;
-        this.isSelected = SelectType.NotSelect;
+        this.isSelected = NotSelect;
     }
 
     isLeaf = () => this.getChildren() === undefined;
     isEqual = (treeNode) => this.getStringId() === treeNode.getStringId();
 
-    isFullSelect = (cascade = true) => this.selectStatus(cascade) === SelectType.FullSelect;
-    isNotSelect = (cascade = true) => this.selectStatus(cascade) === SelectType.NotSelect;
-    isIncompleteSelect = (cascade = true) => this.selectStatus(cascade) === SelectType.IncompleteSelect;
+    isFullSelect = (cascade = true) => this.selectStatus(cascade) === FullSelect;
+    isNotSelect = (cascade = true) => this.selectStatus(cascade) === NotSelect;
+    isIncompleteSelect = (cascade = true) => this.selectStatus(cascade) === IncompleteSelect;
 
     selectStatus = (cascade = true) => {
         if (this.isLeaf() || !cascade) {
@@ -44,25 +42,25 @@ const Tree = class {
             const selectedLeafs = this.getSelectedLeafCount();
             if (leafCount > selectedLeafs) {
                 if (selectedLeafs === 0) {
-                    return SelectType.NotSelect;
+                    return NotSelect;
                 } else {
-                    return SelectType.IncompleteSelect;
+                    return IncompleteSelect;
                 }
             } else {
                 const func = (treeNode) => {
                     if (treeNode.isLeaf()) {
                         return false;
                     } else if (treeNode.getLeafCount() === 0) {
-                        return treeNode.isSelected === SelectType.NotSelect;
+                        return treeNode.isSelected === NotSelect;
                     } else {
                         return treeNode.getChildren()
                             .reduce((prv, cur) => prv || func(cur), false);
                     }
                 };
                 if (func(this)) {
-                    return SelectType.IncompleteSelect;
+                    return IncompleteSelect;
                 } else {
-                    return SelectType.FullSelect;
+                    return FullSelect;
                 }
             }
         }

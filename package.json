@@ -1,23 +1,24 @@
 {
-    "name": "react-native-general-tree",
-    "version": "1.0.7",
+    "name": "general-tree",
+    "version": "1.0.0",
     "private": false,
     "description": "A general tree support tree operation.",
     "main": "index.js",
     "types": "index.d.ts",
     "repository": {
         "type": "git",
-        "url": "https://github.com/gaoxiaosong/react-native-general-tree.git"
+        "url": "https://github.com/gaoxiaosong/general-tree.git"
     },
     "keywords": [
-        "React-Native",
-        "Tree"
+        "tree",
+        "search",
+        "traverse"
     ],
     "author": "Xiaosong Gao",
     "license": "MIT",
     "bugs": {
-        "url": "https://github.com/gaoxiaosong/react-native-general-tree/issues",
+        "url": "https://github.com/gaoxiaosong/general-tree/issues",
         "email": "gaoxiaosong06@gmail.com"
     },
-    "homepage": "https://github.com/gaoxiaosong/react-native-general-tree#readme"
+    "homepage": "https://github.com/gaoxiaosong/general-tree#readme"
 }

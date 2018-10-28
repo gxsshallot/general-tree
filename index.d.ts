@@ -1,10 +1,8 @@
 export type SelectValueType = 0 | 0.5 | 1;
 
-export const SelectType: {
-    NotSelect: SelectValueType,
-    IncompleteSelect: SelectValueType,
-    FullSelect: SelectValueType,
-};
+export const NotSelect: SelectValueType;
+export const IncompleteSelect: SelectValueType;
+export const FullSelect: SelectValueType;
 
 export type TreeKeyType = string | number | {};
 export type TreeValueType = any;

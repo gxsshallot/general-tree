@@ -1,6 +1,6 @@
-# react-native-general-tree
+# general-tree
 
-[中文说明](README-zh_CN.md)
+[![npm version](https://img.shields.io/npm/v/general-tree.svg?style=flat)](https://www.npmjs.com/package/general-tree)
 
 A general tree support tree operation.
 
@@ -9,13 +9,13 @@ A general tree support tree operation.
 Install by Yarn:
 
 ```shell
-yarn add react-native-general-tree
+yarn add general-tree
 ```
 
 Install by NPM:
 
 ```shell
-npm install --save react-native-general-tree
+npm install --save general-tree
 ```
 
 ## Usage
@@ -23,7 +23,7 @@ npm install --save react-native-general-tree
 Import the module in file:
 
 ```javascript
-import Tree from 'react-native-general-tree';
+import Tree from 'general-tree';
 ```
 
 ### Construct
@@ -104,7 +104,3 @@ Then you can call `update` method to change a tree node select status automatica
 * `search: (text: string, keys: string[], multiselect: boolean, exactly: boolean, canSearch: boolean) => Tree[]`
 * `hasAncestor: (ancestor: Tree) => boolean`
 * `findById: (childId: any) => Tree[]`
-
-## Reference
-
-Please see this repository: [react-native-items](https://github.com/gaoxiaosong/react-native-items).
