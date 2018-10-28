@@ -45,8 +45,8 @@ constructor(
 * root: Object to be converted.
 * parent: A `Tree` object to be parent node.
 * childrenKey: `root[childrenKey]` will be used to generate children `Tree` node. `root[childrenKey] === undefined` means it is a leaf node.
-* idKey: `root[idKey]` is an identifier of node, and will be used when `setInitialState`. It will be converted to a string when used in `Tree` class.
-* onStatusChange: When one `Tree` node's select status change, it will be called with current node.
+* idKey: `root[idKey]` is an identifier of node, and will be used when initialization. It will be converted to a string when used.
+* onStatusChange: When a tree node's selection status change, it will be called with current node.
 
 Example:
 
@@ -59,28 +59,26 @@ const node = {
         {code: 3, label: 'bbb'}, // a leaf
     ]
 };
-const tree = new Tree(node, null, 'childs', 'code', null, ['label'], ['label']);
+const tree = new Tree(node, null, 'childs', 'code', null);
 ```
 
-### Select Status
+### Selection Status
 
-A tree node have a select status.
+A tree node have a selection status.
 
 ```javascript
-export const SelectType = {
-    NotSelect: 0,
-    IncompleteSelect: 0.5,
-    FullSelect: 1,
-};
+export const NotSelect = 0;
+export const IncompleteSelect = 0.5;
+export const FullSelect = 1;
 ```
 
-A leaf node only have two status: not select or full select.
+A leaf node only have two status: `NotSelect` or `FullSelect`.
 
 A not leaf node have all three status. `IncompleteSelect` means its children is not all selected.
 
-The select status will be initialized in `constructor` with `NotSelect`. And you can use `setInitialState` to set a initial select state of a tree.
+The selection status will be initialized in `constructor` with `NotSelect`. And you can use `setInitialState` to set a initial selection state of a tree.
 
-Then you can call `update` method to change a tree node select status automatically.
+Then you can call `update` method to change a tree node selection status automatically.
 
 ### Interface
 
