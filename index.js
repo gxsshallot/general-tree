@@ -152,7 +152,7 @@ const Tree = class {
             text = text.toLowerCase();
         }
         const result = [];
-        if (canSearch && (multiselect || this.isLeaf())) {
+        if (canSearch) {
             const uniqueKeys = Array.from(new Set(keys));
             const isContain = uniqueKeys
                 .some(key => this.root[key] && this.root[key].toLowerCase().indexOf(text) >= 0);
