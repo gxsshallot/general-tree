@@ -14,10 +14,11 @@ const Tree = class {
         onStatusChange = undefined
     ) {
         this.idKey = idKey;
-        this.root = {...root};
+        this.root = {};
+        this.root.info = root || {};
         this.root[kParent] = parent;
-        this.root[kChild] = this.root[childrenKey] ?
-            this.root[childrenKey].map(item => {
+        this.root[kChild] = this.root.info[childrenKey] ?
+            this.root.info[childrenKey].map(item => {
                 return new Tree(item, this, childrenKey, idKey, onStatusChange);
             }) : undefined;
         this.onStatusChange = onStatusChange;
@@ -70,7 +71,8 @@ const Tree = class {
         if (this.isLeaf()) {
             return 1;
         } else {
-            return this.getChildren().reduce((prv, cur) => prv + cur.getLeafCount(), 0);
+            return this.getChildren()
+                .reduce((prv, cur) => prv + cur.getLeafCount(), 0);
         }
     };
 
@@ -78,7 +80,8 @@ const Tree = class {
         if (this.isLeaf()) {
             return this.isSelected;
         } else {
-            return this.getChildren().reduce((prv, cur) => prv + cur.getSelectedLeafCount(), 0);
+            return this.getChildren()
+                .reduce((prv, cur) => prv + cur.getSelectedLeafCount(), 0);
         }
     };
 
@@ -86,24 +89,20 @@ const Tree = class {
         if (this.isLeaf()) {
             return 1;
         } else {
-            return 1 + this.getChildren().reduce((prv, cur) => {
-                const curDeepth = cur.getDeepth();
-                if (curDeepth > prv) {
-                    return curDeepth;
-                } else {
-                    return prv;
-                }
-            }, 0);
+            return 1 + this.getChildren()
+                .reduce((prv, cur) => {
+                    const curDeepth = cur.getDeepth();
+                    if (curDeepth > prv) {
+                        return curDeepth;
+                    } else {
+                        return prv;
+                    }
+                }, 0);
         }
     };
 
-    getInfo = () => ({
-        ...this.root,
-        [kChild]: undefined,
-        [kParent]: undefined,
-    });
-
-    getId = () => this.root[this.idKey];
+    getInfo = () => this.root.info;
+    getId = () => this.root.info[this.idKey];
     getStringId = () => this._stringId(this.getId());
     getParent = () => this.root[kParent];
     getChildren = () => this.root[kChild];
@@ -112,10 +111,11 @@ const Tree = class {
         if (this.isLeaf()) {
             return [this];
         } else {
-            return this.getChildren().reduce((prv, cur) => {
-                const leafs = cur.getLeafChildren();
-                return [...prv, ...leafs];
-            }, []);
+            return this.getChildren()
+                .reduce((prv, cur) => {
+                    prv.push(...cur.getLeafChildren());
+                    return prv;
+                }, []);
         }
     };
 
@@ -141,7 +141,8 @@ const Tree = class {
             this.isSelected = 1 - this.isSelected;
         } else {
             this.isSelected = this.selectStatus(cascade) < 1 ? 1 : 0;
-            cascade && this.getChildren().forEach(treeNode => treeNode._fromUpNotification(this.isSelected));
+            cascade && this.getChildren()
+                .forEach(treeNode => treeNode._fromUpNotification(this.isSelected));
         }
         cascade && this.getParent() && this.getParent()._fromDownNotification();
         this._onStatusChange();
@@ -155,16 +156,17 @@ const Tree = class {
         if (canSearch) {
             const uniqueKeys = Array.from(new Set(keys));
             const isContain = uniqueKeys
-                .some(key => this.root[key] && this.root[key].toLowerCase().indexOf(text) >= 0);
+                .some(key => this.root.info[key] && this.root.info[key].toLowerCase().indexOf(text) >= 0);
             if (isContain) {
                 result.push(this);
             }
         }
         if (!this.isLeaf()) {
-            this.getChildren().forEach(child => {
-                const chresult = child.search(text, keys, multiselect, exactly);
-                chresult.forEach(item => result.push(item));
-            });
+            this.getChildren()
+                .forEach(child => {
+                    const chresult = child.search(text, keys, multiselect, exactly);
+                    chresult.forEach(item => result.push(item));
+                });
         }
         return result;
     };
@@ -185,14 +187,17 @@ const Tree = class {
         } else if (this.isLeaf()) {
             return undefined;
         } else {
-            return [undefined, ...this.getChildren()].reduce((prv, cur) => {
-                const r = cur.findById(childId);
-                if (r) {
-                    return prv ? [...prv, ...r] : [...r];
-                } else {
+            return this.getChildren()
+                .reduce((prv, cur) => {
+                    const r = cur.findById(childId);
+                    if (r) {
+                        if (!prv) {
+                            prv = [];
+                        }
+                        prv.push(r);
+                    }
                     return prv;
-                }
-            });
+                }, undefined);
         }
     };
 
