@@ -25,14 +25,24 @@ const Tree = class {
         this.isSelected = NotSelect;
     }
 
-    isLeaf = () => this.getChildren() === undefined;
-    isEqual = (treeNode) => this.getStringId() === treeNode.getStringId();
+    isLeaf() {
+        return this.getChildren() === undefined;
+    }
+    isEqual(treeNode) {
+        return this.getStringId() === treeNode.getStringId();
+    }
 
-    isFullSelect = (cascade = true) => this.selectStatus(cascade) === FullSelect;
-    isNotSelect = (cascade = true) => this.selectStatus(cascade) === NotSelect;
-    isIncompleteSelect = (cascade = true) => this.selectStatus(cascade) === IncompleteSelect;
+    isFullSelect(cascade = true) {
+        return this.selectStatus(cascade) === FullSelect;
+    }
+    isNotSelect(cascade = true) {
+        return this.selectStatus(cascade) === NotSelect;
+    }
+    isIncompleteSelect(cascade = true) {
+        return this.selectStatus(cascade) === IncompleteSelect;
+    }
 
-    selectStatus = (cascade = true) => {
+    selectStatus(cascade = true) {
         if (this.isLeaf() || !cascade) {
             return this.isSelected;
         } else {
@@ -67,7 +77,7 @@ const Tree = class {
         }
     };
 
-    getLeafCount = () => {
+    getLeafCount() {
         if (this.isLeaf()) {
             return 1;
         } else {
@@ -76,7 +86,7 @@ const Tree = class {
         }
     };
 
-    getSelectedLeafCount = () => {
+    getSelectedLeafCount() {
         if (this.isLeaf()) {
             return this.isSelected;
         } else {
@@ -85,7 +95,7 @@ const Tree = class {
         }
     };
 
-    getDeepth = () => {
+    getDeepth() {
         if (this.isLeaf()) {
             return 1;
         } else {
@@ -101,13 +111,23 @@ const Tree = class {
         }
     };
 
-    getInfo = () => this.root.info;
-    getId = () => this.root.info[this.idKey];
-    getStringId = () => this._stringId(this.getId());
-    getParent = () => this.root[kParent];
-    getChildren = () => this.root[kChild];
+    getInfo() {
+        return this.root.info;
+    }
+    getId() {
+        return this.root.info[this.idKey];
+    }
+    getStringId() {
+        return this._stringId(this.getId());
+    }
+    getParent() {
+        return this.root[kParent];
+    }
+    getChildren() {
+        return this.root[kChild];
+    }
 
-    getLeafChildren = () => {
+    getLeafChildren() {
         if (this.isLeaf()) {
             return [this];
         } else {
@@ -119,7 +139,7 @@ const Tree = class {
         }
     };
 
-    setInitialState = (selectedIds, cascade = true) => {
+    setInitialState(selectedIds, cascade = true) {
         const result = [];
         if (Array.isArray(selectedIds) && selectedIds.length > 0) {
             selectedIds = selectedIds.map(item => this._stringId(item));
@@ -136,7 +156,7 @@ const Tree = class {
         return result;
     };
 
-    update = (cascade = true) => {
+    update(cascade = true) {
         if (this.isLeaf()) {
             this.isSelected = 1 - this.isSelected;
         } else {
@@ -148,7 +168,7 @@ const Tree = class {
         this._onStatusChange();
     };
 
-    search = (text, keys, multiselect, exactly = false, canSearch = true) => {
+    search(text, keys, multiselect, exactly = false, canSearch = true) {
         if (!exactly) {
             text = text.toLowerCase();
         }
@@ -171,7 +191,7 @@ const Tree = class {
         return result;
     };
 
-    hasAncestor = (ancestor) => {
+    hasAncestor(ancestor) {
         const parent = this.getParent();
         if (parent) {
             return ancestor.getStringId() === parent.getStringId()
@@ -181,7 +201,7 @@ const Tree = class {
         }
     };
 
-    findById = (childId) => {
+    findById(childId) {
         if (this.getStringId() === this._stringId(childId)) {
             return [this];
         } else if (this.isLeaf()) {
@@ -201,7 +221,7 @@ const Tree = class {
         }
     };
 
-    _fromUpNotification = (status) => {
+    _fromUpNotification(status) {
         this.isSelected = status;
         if (!this.isLeaf()) {
             this.getChildren().forEach(treeNode => treeNode._fromUpNotification(status));
@@ -209,16 +229,16 @@ const Tree = class {
         this._onStatusChange();
     };
 
-    _fromDownNotification = () => {
+    _fromDownNotification() {
         this._onStatusChange();
         this.getParent() && this.getParent()._fromDownNotification();
     };
 
-    _onStatusChange = () => {
+    _onStatusChange() {
         this.onStatusChange && this.onStatusChange(this);
     };
 
-    _stringId = (id) => {
+    _stringId(id) {
         if (id === undefined || id === null) {
             throw new Error('Identifier can not be null or undefined');
         }
