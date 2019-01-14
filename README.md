@@ -1,6 +1,7 @@
 # general-tree
 
 [![npm version](https://img.shields.io/npm/v/general-tree.svg?style=flat)](https://www.npmjs.com/package/general-tree)
+[![Build Status](https://travis-ci.org/gaoxiaosong/general-tree.svg?branch=master)](https://travis-ci.org/gaoxiaosong/general-tree)
 
 A general tree support tree operation.
 
@@ -82,23 +83,23 @@ Then you can call `update` method to change a tree node selection status automat
 
 ### Interface
 
-* `isLeaf: () => boolean`
-* `isEqual: (treeNode: Tree) => boolean`
-* `selectStatus: (cascade: boolean) => 0 | 0.5 | 1`
-* `isFullSelect: (cascade: boolean) => boolean`
-* `isNotSelect: (cascade: boolean) => boolean`
-* `isIncompleteSelect: (cascade: boolean) => boolean`
-* `getLeafCount: () => number`
-* `getSelectedLeafCount: () => number`
-* `getDeepth: () => number`
-* `getInfo: () => object`
-* `getId: () => any`
-* `getStringId: () => string`
-* `getParent: () => Tree?`
-* `getChildren: () => Tree[]?`
-* `getLeafChildren: () => Tree[]`
-* `setInitialState: (selectedIds: any[], cascade: boolean) => Tree[]`
-* `update: (cascade: boolean) => void`
-* `search: (text: string, keys: string[], multiselect: boolean, exactly: boolean, canSearch: boolean) => Tree[]`
-* `hasAncestor: (ancestor: Tree) => boolean`
-* `findById: (childId: any) => Tree[]`
+* `isLeaf(): boolean`
+* `isEqual(treeNode: Tree): boolean`
+* `selectStatus(cascade: boolean): 0 | 0.5 | 1`
+* `isFullSelect(cascade: boolean): boolean`
+* `isNotSelect(cascade: boolean): boolean`
+* `isIncompleteSelect(cascade: boolean): boolean`
+* `getLeafCount(): number`
+* `getSelectedLeafCount(): number`
+* `getDeepth(): number`
+* `getInfo(): object`
+* `getId(): any`
+* `getStringId(): string`
+* `getParent(): Tree?`
+* `getChildren(): Tree[]?`
+* `getLeafChildren(): Tree[]`
+* `setInitialState(selectedIds: any[], cascade: boolean): Tree[]`
+* `update(cascade: boolean): void`
+* `search(text: string, keys: string[], multiselect: boolean, exactly: boolean, canSearch: boolean): Tree[]`
+* `hasAncestor(ancestor: Tree): boolean`
+* `findById(childId: any): Tree[]`
