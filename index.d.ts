@@ -16,41 +16,41 @@ declare class Tree {
         onStatusChange?: (treeNode: Tree) => void,
     );
 
-    isLeaf: () => boolean;
-    isEqual: (treeNode: Tree) => boolean;
+    isLeaf(): boolean;
+    isEqual(treeNode: Tree): boolean;
 
-    isFullSelect: (cascade?: boolean) => boolean;
-    isNotSelect: (cascade?: boolean) => boolean;
-    isIncompleteSelect: (cascade?: boolean) => boolean;
-    selectStatus: (cascade?: boolean) => SelectValueType;
+    isFullSelect(cascade?: boolean): boolean;
+    isNotSelect(cascade?: boolean): boolean;
+    isIncompleteSelect(cascade?: boolean): boolean;
+    selectStatus(cascade?: boolean): SelectValueType;
 
-    getLeafCount: () => number;
-    getSelectedLeafCount: () => number;
-    getDeepth: () => number;
-    getInfo: () => {};
-    getId: () => TreeValueType;
-    getStringId: () => string;
-    getParent: () => Tree | void;
-    getChildren: () => Tree[];
-    getLeafChildren: () => Tree[];
+    getLeafCount(): number;
+    getSelectedLeafCount(): number;
+    getDeepth(): number;
+    getInfo(): {};
+    getId(): TreeValueType;
+    getStringId(): string;
+    getParent(): Tree | void;
+    getChildren(): Tree[];
+    getLeafChildren(): Tree[];
 
-    setInitialState: (selectedIds: TreeKeyType[], cascade?: boolean) => Tree[];
-    update: (cascade?: boolean) => void;
-    search: (
+    setInitialState(selectedIds: TreeKeyType[], cascade?: boolean): Tree[];
+    update(cascade?: boolean): void;
+    search(
         text: string,
         keys: TreeKeyType[],
         multiselect: boolean,
         exactly?: boolean,
         canSearch?: boolean
-    ) => Tree[];
+    ): Tree[];
 
-    hasAncestor: (ancestor: Tree) => boolean;
-    findById: (childId: TreeKeyType) => Tree[] | void;
+    hasAncestor(ancestor: Tree): boolean;
+    findById(childId: TreeKeyType): Tree[] | void;
 
-    private _fromUpNotification: (status: boolean) => void;
-    private _fromDownNotification: () => void;
-    private _onStatusChange: () => void;
-    private _stringId: (id: TreeKeyType) => string;
+    private _fromUpNotification(status: boolean): void;
+    private _fromDownNotification(): void;
+    private _onStatusChange(): void;
+    private _stringId(id: TreeKeyType): string;
 }
 
 export default Tree;
