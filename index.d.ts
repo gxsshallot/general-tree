@@ -33,6 +33,7 @@ declare class Tree {
     getParent(): Tree | void;
     getChildren(): Tree[];
     getLeafChildren(): Tree[];
+    getPath(): string;
 
     setInitialState(selectedIds: TreeKeyType[], cascade?: boolean): Tree[];
     update(cascade?: boolean): void;

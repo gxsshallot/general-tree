@@ -16,6 +16,7 @@ const Tree = class {
         this.idKey = idKey;
         this.root = {};
         this.root.info = root || {};
+        this.root.path = (parent ? parent.getPath() : '') + '/' + this.getStringId();
         this.root[kParent] = parent;
         this.root[kChild] = this.root.info[childrenKey] ?
             this.root.info[childrenKey].map(item => {
@@ -75,7 +76,7 @@ const Tree = class {
                 }
             }
         }
-    };
+    }
 
     getLeafCount() {
         if (this.isLeaf()) {
@@ -84,7 +85,7 @@ const Tree = class {
             return this.getChildren()
                 .reduce((prv, cur) => prv + cur.getLeafCount(), 0);
         }
-    };
+    }
 
     getSelectedLeafCount() {
         if (this.isLeaf()) {
@@ -93,7 +94,7 @@ const Tree = class {
             return this.getChildren()
                 .reduce((prv, cur) => prv + cur.getSelectedLeafCount(), 0);
         }
-    };
+    }
 
     getDeepth() {
         if (this.isLeaf()) {
@@ -109,7 +110,7 @@ const Tree = class {
                     }
                 }, 0);
         }
-    };
+    }
 
     getInfo() {
         return this.root.info;
@@ -126,6 +127,9 @@ const Tree = class {
     getChildren() {
         return this.root[kChild];
     }
+    getPath() {
+        return this.root.path;
+    }
 
     getLeafChildren() {
         if (this.isLeaf()) {
@@ -137,7 +141,7 @@ const Tree = class {
                     return prv;
                 }, []);
         }
-    };
+    }
 
     setInitialState(selectedIds, cascade = true) {
         const result = [];
@@ -154,7 +158,7 @@ const Tree = class {
             }
         }
         return result;
-    };
+    }
 
     update(cascade = true) {
         if (this.isLeaf()) {
@@ -166,7 +170,7 @@ const Tree = class {
         }
         cascade && this.getParent() && this.getParent()._fromDownNotification();
         this._onStatusChange();
-    };
+    }
 
     search(text, keys, multiselect, exactly = false, canSearch = true) {
         if (!exactly) {
@@ -189,7 +193,7 @@ const Tree = class {
                 });
         }
         return result;
-    };
+    }
 
     hasAncestor(ancestor) {
         const parent = this.getParent();
@@ -199,7 +203,7 @@ const Tree = class {
         } else {
             return false;
         }
-    };
+    }
 
     findById(childId) {
         if (this.getStringId() === this._stringId(childId)) {
@@ -219,7 +223,7 @@ const Tree = class {
                     return prv;
                 }, undefined);
         }
-    };
+    }
 
     _fromUpNotification(status) {
         this.isSelected = status;
@@ -227,16 +231,16 @@ const Tree = class {
             this.getChildren().forEach(treeNode => treeNode._fromUpNotification(status));
         }
         this._onStatusChange();
-    };
+    }
 
     _fromDownNotification() {
         this._onStatusChange();
         this.getParent() && this.getParent()._fromDownNotification();
-    };
+    }
 
     _onStatusChange() {
         this.onStatusChange && this.onStatusChange(this);
-    };
+    }
 
     _stringId(id) {
         if (id === undefined || id === null) {
@@ -249,7 +253,7 @@ const Tree = class {
             return String(id);
         }
         return JSON.stringify(id);
-    };
+    }
 };
 
 export default Tree;

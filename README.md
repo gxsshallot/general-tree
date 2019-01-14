@@ -98,6 +98,7 @@ Then you can call `update` method to change a tree node selection status automat
 * `getParent(): Tree?`
 * `getChildren(): Tree[]?`
 * `getLeafChildren(): Tree[]`
+* `getPath(): string`
 * `setInitialState(selectedIds: any[], cascade: boolean): Tree[]`
 * `update(cascade: boolean): void`
 * `search(text: string, keys: string[], multiselect: boolean, exactly: boolean, canSearch: boolean): Tree[]`
