@@ -116,7 +116,15 @@ const Tree = class {
         return this.root.info;
     }
     getId() {
-        return this.root.info[this.idKey];
+        if (Array.isArray(this.idKey)) {
+            let i = 0;
+            while (i < this.idKey.length && !this.root.info[this.idKey[i]]) {
+                i = i + 1;
+            }
+            return i >= this.idKey.length ? undefined : this.root.info[this.idKey[i]];
+        } else {
+            return this.root.info[this.idKey];
+        }
     }
     getStringId() {
         return this._stringId(this.getId());
