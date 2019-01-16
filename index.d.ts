@@ -33,6 +33,8 @@ declare class Tree {
     getParent(): Tree | void;
     getChildren(): Tree[];
     getLeafChildren(): Tree[];
+    getLeafChildrenCount(): number;
+    getSelectedLeafChildrenCount(): number;
     getPath(): string;
 
     setInitialState(selectedIds: TreeKeyType[], cascade?: boolean): Tree[];

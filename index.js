@@ -143,6 +143,32 @@ const Tree = class {
         }
     }
 
+    getLeafChildrenCount() {
+        if (this.root.leafCount !== undefined) {
+            return this.root.leafCount;
+        }
+        let count;
+        if (this.isLeaf()) {
+            count = 1;
+        } else {
+            count = this.getChildren()
+                .reduce((prv, cur) => prv + cur.getLeafChildrenCount(), 0);
+        }
+        this.root.leafCount = count;
+        return count;
+    }
+
+    getSelectedLeafChildrenCount() {
+        let count;
+        if (this.isLeaf()) {
+            count = this.isFullSelect() ? 1 : 0;
+        } else {
+            count = this.getChildren()
+                .reduce((prv, cur) => prv + cur.getSelectedLeafChildrenCount(), 0);
+        }
+        return count;
+    }
+
     setInitialState(selectedIds, cascade = true) {
         const result = [];
         if (Array.isArray(selectedIds) && selectedIds.length > 0) {
