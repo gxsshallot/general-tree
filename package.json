@@ -1,6 +1,6 @@
 {
     "name": "general-tree",
-    "version": "1.1.1",
+    "version": "1.1.2",
     "private": false,
     "description": "A general tree support tree operation.",
     "main": "index.js",
