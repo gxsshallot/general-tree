@@ -181,10 +181,12 @@ const Tree = class {
         const result = [];
         if (Array.isArray(selectedIds) && selectedIds.length > 0) {
             selectedIds = selectedIds.map(item => this._stringId(item));
-            if (selectedIds.indexOf(this.getStringId()) >= 0) {
+            const hasSelf = selectedIds.indexOf(this.getStringId()) >= 0;
+            if (hasSelf) {
                 this.update(cascade);
                 result.push(this);
-            } else if (!this.isLeaf()) {
+            }
+            if (!this.isLeaf() && (!hasSelf || !cascade)) {
                 this.getChildren().forEach(subNode => {
                     const r = subNode.setInitialState(selectedIds, cascade);
                     r.forEach(item => result.push(item));
